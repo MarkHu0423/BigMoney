@@ -24,19 +24,19 @@ class SingleBackTest(object):
         self.acc_ret = 0
         self.day_record = {}
         self.per_record = []
-        self.init_asset = 1000000
+        self.init_asset = 1000000 # 总资产
         self.slippage = 0.4
         self.pos_record = {'pos': 0, 'price': 0, 'side': ''}
         self.is_trade = False
         self.last_ret = 0
         self.time_record = []
         self.has_action = False
-        self.multiple_factor = 1000
+        self.multiple_factor = 1000 # 股票支数
         # self.hold_days = 999  # 最大持仓天数
         self.hold_days = 999
         self.last_y = None
 
-
+# 定义买卖动作
     def predict_action(self, kline):
         pred_y = kline.get(self.factor)
         if self.side == 'long':
@@ -75,6 +75,7 @@ class SingleBackTest(object):
             self.last_y = pred_y
         return None
 
+    # 定义平仓情况，计算收益
     def update_per_record(self, kline):
         if self.pos_record['side'] == 'buy':
             ret = self.rr(kline.get('C') - self.pos_record['price'], 2)
@@ -95,6 +96,7 @@ class SingleBackTest(object):
             self.pos_record['side'] = ''
             self.is_trade = True
 
+    # 算仓位（资金曲线）
     def cal_position(self, kline, action):
         if action == 'buy' and self.pos_record['pos'] == 0:
             self.pos_record['price'] = kline.get('C') + self.slippage
@@ -111,6 +113,7 @@ class SingleBackTest(object):
         elif action == 'close':
             self.update_per_record(kline)
 
+    # 存储净值曲线 
     def stat(self, kline, flag=False):
         # open close return day annual.ret drawdown mar hold.time num avg.pnl turnover sharpe annual.num
         # 总回报，交易天数，年回报， 回撤， 开平仓次数 平均利润 平均持仓时间 sharp 胜率 盈亏比  最近回撤（最高点到当前最新净值的回撤幅度）
@@ -133,6 +136,7 @@ class SingleBackTest(object):
         self.last_ret = ret
         self.acc_ret = 0
 
+    # 输出结果    
     def output(self):
         # 输出统计结果
         ret_list = [self.day_record[key] * self.multiple_factor for key in sorted(self.day_record.keys())]  # 每日回报
@@ -167,6 +171,7 @@ class SingleBackTest(object):
         self.result['latest_dr'] = self.rr((1 - net_ret[-1] / max(net_ret)), 3)  # 最近回撤 最高点到当前最新净值的回撤幅度
         return self.result
 
+    # 存储结果并绘图利于分析
     def cal_ave_ret(self, ret_list):
         ave_ret = 0  # 平均回报
         ave_hold_time = 0
