@@ -31,7 +31,7 @@ class SingleBackTest(object):
         self.last_ret = 0
         self.time_record = []
         self.has_action = False
-        self.multiple_factor = 1000 # 股票支数
+        self.multiple_factor = 800 # 股票支数
         # self.hold_days = 999  # 最大持仓天数
         self.hold_days = 999
         self.last_y = None
