@@ -309,7 +309,7 @@ class SingleBackTest(object):
 
 if __name__ == '__main__':
     factor = 'rsi'
-    data = pd.read_csv('data/maotai-factor_data7.csv', index_col=0, parse_dates=['time'])
+    data = pd.read_csv('maotai-factor_data7.csv', index_col=0, parse_dates=['time'])
     list_data = data.to_dict(orient='records')
     side = 'long'
     # side = 'short'

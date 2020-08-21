@@ -45,14 +45,14 @@ def fun3_2():
     打图看一下收益
     :return:
     """
-    df = pd.read_csv('data/raw_factor_maotai-k2018.7-2020.7-data.csv', index_col=0)
+    df = pd.read_csv('raw_factor_maotai-k2018.7-2020.7-data.csv', index_col=0)
     y = (df['close'] - df.shift(10)['close'])
     plt.plot(y)
     plt.show()
     # 发现前期数据异常 可能不能用  去掉
     # df = df[:385]
     df = df.reset_index(drop=True)
-    df.to_csv('data/maotai-factor_data7.csv')
+    df.to_csv('maotai-factor_data7.csv')
 
 # fun3_2()
 
@@ -96,7 +96,7 @@ def fun3_5():
 # fun3_5()
 
 def fun3_6():
-    df = pd.read_csv('data/maotai-factor_data7.csv', index_col=0)
+    df = pd.read_csv('maotai-factor_data7.csv', index_col=0)
     print("x1 x2", np.corrcoef(df['x_1'], df['x_2'])[0])
     for column in ['r_1', 'r_5', "r_10"]:
         for factor in ['x_1', 'x_2']:
